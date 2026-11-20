@@ -17,7 +17,7 @@ Extract the dataset so that the specified root directly contains folders such as
 The main configuration resizes images to 256 × 256 using bilinear interpolation, converts grayscale and color inputs to RGB, and scales pixels to `[0, 1]`. Masks use nearest-neighbor resizing and binary values. Normal test images receive zero masks. The model applies the CLIP, ResNet-50, and VAE normalizations separately.
 
 [MVTec AD dataset](https://www.mvtec.com/research-teaching/datasets/mvtec-ad) · [Anomalib MVTec AD data reference](https://anomalib.readthedocs.io/en/v1/markdown/guides/reference/data/image/mvtec.html)
-
+[MVTec AD dataset].(https://github.com/amazon-science/spot-diff）
 ```
 python -m data.mvtec_ad --root datasets/mvtec_ad
 ```
