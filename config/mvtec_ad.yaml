@@ -1,0 +1,62 @@
+seed: 42
+data:
+  root: datasets/mvtec_ad
+  categories: null
+  image_size: 256
+runtime:
+  device: auto
+  workers: 4
+  amp: true
+  cpu_threads: null
+training:
+  batch_size: 8
+  epochs: 1000
+  learning_rate: 0.00001
+  weight_decay: 0.01
+  checkpoint_every: 10
+  output_dir: runs/mvtec_ad
+evaluation:
+  batch_size: 4
+  ddim_steps: 10
+  start_step: 499
+model:
+  backbones:
+    kind: pretrained
+    clip: openai/clip-vit-base-patch16
+    vae: stabilityai/sd-vae-ft-mse
+    resnet_weights: IMAGENET1K_V1
+    local_files_only: false
+  acst:
+    rank: 128
+    heads: 4
+    saliency_threshold: 0.5
+    perturbation_strength: 0.15
+    simplex_frequency: 8
+  msadn:
+    widths: [128, 256, 512]
+    bottleneck_width: 384
+  ahfg:
+    heads: 4
+    control_dim: 128
+  unet:
+    channels: [128, 256, 512, 768]
+    time_width: 128
+    blocks_per_level: 2
+  diffusion:
+    train_steps: 1000
+    beta_start: 0.00085
+    beta_end: 0.012
+loss:
+  asc:
+    kl: 1.0
+    feature: 0.1
+    orthogonality: 0.1
+  local:
+    cosine: 1.0
+    reconstruction: 0.5
+    consistency: 0.1
+  local_scale: 1.0
+  total:
+    asc: 1.0
+    mfc: 0.5
+    diffusion: 1.0

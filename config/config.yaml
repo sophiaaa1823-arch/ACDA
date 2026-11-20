@@ -1,0 +1,59 @@
+seed: 42
+data:
+  root: datasets/mvtec_ad
+  categories: [bottle, cable]
+  image_size: 32
+runtime:
+  device: cpu
+  workers: 0
+  amp: false
+  cpu_threads: 2
+training:
+  batch_size: 4
+  epochs: 1
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  checkpoint_every: 1
+  output_dir: runs/smoke
+evaluation:
+  batch_size: 2
+  ddim_steps: 10
+  start_step: 19
+model:
+  backbones:
+    kind: compact
+    seed: 7
+  acst:
+    rank: 16
+    heads: 4
+    saliency_threshold: 0.5
+    perturbation_strength: 0.15
+    simplex_frequency: 8
+  msadn:
+    widths: [16, 24, 32]
+    bottleneck_width: 24
+  ahfg:
+    heads: 4
+    control_dim: 16
+  unet:
+    channels: [16, 24, 32]
+    time_width: 16
+    blocks_per_level: 1
+  diffusion:
+    train_steps: 32
+    beta_start: 0.00085
+    beta_end: 0.012
+loss:
+  asc:
+    kl: 1.0
+    feature: 0.1
+    orthogonality: 0.1
+  local:
+    cosine: 1.0
+    reconstruction: 0.5
+    consistency: 0.1
+  local_scale: 1.0
+  total:
+    asc: 1.0
+    mfc: 0.5
+    diffusion: 1.0
